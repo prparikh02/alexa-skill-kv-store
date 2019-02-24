@@ -1,0 +1,39 @@
+version: 0.2
+
+#env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+
+phases:
+  install:
+    commands:
+       - mkdir build
+       - pip install -r requirements.txt -t build/
+  #pre_build:
+    #commands:
+      # - command
+      # - command
+  build:
+    commands:
+       - zip -r9 build.zip build
+       - zip -gr build.zip $(cat zip-targets.txt | tr '\n' ' ')
+       - aws cloudformation package --template-file sam-template.yml --s3-bucket codepipeline-us-east-1-895194299732 -- output-template-file packaged.yml
+#   post_build:
+    # commands:
+      # - command
+artifacts:
+  type: zip
+  files:
+    - sam-template.yml
+    - packaged.yml
+    # - location
+  #name: $(date +%Y-%m-%d)
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths
