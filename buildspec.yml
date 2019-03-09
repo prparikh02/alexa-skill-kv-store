@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+       - mkdir build
+       - pip install -r requirements.txt -t build/
+  build:
+    commands:
+       - zip -r9 build.zip build
+       - zip -gr build.zip $(cat zip-targets.txt | tr '\n' ' ')
+       - aws cloudformation package --template-file sam-template.yml --kms-key-id 6ef85c7c-7235-48f6-ba55-70a7e36f48eb --s3-bucket codepipeline-us-east-1-895194299732 --output-template-file packaged.yml
+artifacts:
+  type: zip
+  files:
+    - sam-template.yml
+    - packaged.yml
