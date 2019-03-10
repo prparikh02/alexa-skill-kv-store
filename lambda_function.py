@@ -33,9 +33,9 @@ class PutKeyValueIntentHandler(IntentHandler):
 
     def _create_user_data_item(self, user_id, request):
         return {
-            USER_ID: user_id,  # Primary key
-            INFO_KEY: self._get_slot_value(self.SLOT_INFO_KEY),  # Sort key
-            INFO_VALUE: self._get_slot_value(self.SLOT_INFO_VALUE),
+            USER_ID: user_id,
+            INFO_KEY: self._get_slot_value(self.SLOT_INFO_KEY, request),
+            INFO_VALUE: self._get_slot_value(self.SLOT_INFO_VALUE, request),
             REQUEST_ID: request['requestId'],
             TIMESTAMP: request['timestamp'],
         }
@@ -46,7 +46,7 @@ class GetValueIntentHandler(IntentHandler):
         response = data_table.get_item(
             Key={
                 USER_KEY: user_id,
-                INFO_KEY: self._get_slot_value(self.SLOT_INFO_KEY)
+                INFO_KEY: self._get_slot_value(self.SLOT_INFO_KEY, request)
             }
         )
         return response['item']
