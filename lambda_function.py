@@ -67,6 +67,7 @@ def get_user_id(session):
 
 
 def lambda_handler(event, context):
+    print(event)
     session = event['session']
     request = event['request']
 
