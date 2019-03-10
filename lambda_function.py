@@ -21,7 +21,7 @@ class IntentHandler(object):
     def handle(self, user_id, request):
         raise NotImplementedError('Use handle() method of child class')
 
-    def _get_slot_value(slot_name, request):
+    def _get_slot_value(self, slot_name, request):
         return request['intent']['slots'][slot_name]['value']
 
 
